@@ -12,7 +12,7 @@ export default function HeroPhotoShowcase({ scrollY = 0, light = false }) {
   const containerRef = useRef(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0, gx: 50, gy: 50 });
   const [isHovered, setIsHovered] = useState(false);
-  const [activeMode, setActiveMode] = useState("hologram"); // 'hologram' | 'obsidian' | 'aura'
+  const [activeMode, setActiveMode] = useState("obsidian"); // 'obsidian' (Gold Luxe) | 'hologram' | 'aura'
 
   // Parallax translation from scroll
   const scrollOffset = scrollY * 0.04;

@@ -320,7 +320,35 @@ export default function Resume() {
   const [achRef, achInView] = useInView(0.08);
   const [certRef, certInView] = useInView(0.08);
   const [showCvModal, setShowCvModal] = useState(false);
+  const [downloadNotice, setDownloadNotice] = useState(null);
   const scrollDir = useScrollDirection();
+
+  const RESUME_PATH = "/YESURUN_A_Resume.pdf";
+
+  const handleDownloadResume = async () => {
+    audio.playClick();
+    try {
+      const response = await fetch(RESUME_PATH, { method: "HEAD" });
+      if (response.ok && (response.headers.get("content-type")?.includes("pdf") || response.status === 200)) {
+        const link = document.createElement("a");
+        link.href = RESUME_PATH;
+        link.download = "YESURUN_A_Resume.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        setDownloadNotice(
+          "The official PDF file (YESURUN_A_Resume.pdf) has not yet been added to the /public directory. You can inspect the complete verified credentials below or use the Print / Save option."
+        );
+        setShowCvModal(true);
+      }
+    } catch {
+      setDownloadNotice(
+        "The official PDF file (YESURUN_A_Resume.pdf) has not yet been added to the /public directory. You can inspect the complete verified credentials below or use the Print / Save option."
+      );
+      setShowCvModal(true);
+    }
+  };
 
   const handlePrintCv = () => {
     audio.playClick();
@@ -362,17 +390,27 @@ export default function Resume() {
             </h2>
           </div>
 
-          <div>
+          <div className="flex flex-wrap items-center gap-4">
+            <button
+              type="button"
+              onClick={handleDownloadResume}
+              className="inline-flex items-center gap-3 px-7 py-4 border border-[#D4A853] bg-[#D4A853] text-[#080A0D] text-xs sm:text-sm font-mono font-bold tracking-widest uppercase hover:bg-[#FFF1C5] hover:shadow-[0_0_25px_rgba(212,168,83,0.5)] transition-all cursor-pointer"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download Resume (PDF)</span>
+            </button>
+
             <button
               type="button"
               onClick={() => {
                 audio.playClick();
+                setDownloadNotice(null);
                 setShowCvModal(true);
               }}
-              className="inline-flex items-center gap-3 px-7 py-4 border border-[#D4A853] bg-[#D4A853] text-[#080A0D] text-xs sm:text-sm font-mono font-bold tracking-widest uppercase hover:bg-[#FFF1C5] hover:shadow-[0_0_25px_rgba(212,168,83,0.5)] transition-all cursor-pointer"
+              className="inline-flex items-center gap-3 px-6 py-4 border border-[var(--border)] text-[var(--text)] text-xs sm:text-sm font-mono tracking-widest uppercase hover:border-[#D4A853] hover:text-[#D4A853] transition-all cursor-pointer"
             >
               <FileText className="w-4 h-4" />
-              <span>Inspect Full Official CV</span>
+              <span>Inspect Full CV</span>
             </button>
           </div>
         </div>
@@ -504,13 +542,23 @@ export default function Resume() {
               </div>
 
               <div className="flex items-center gap-3">
+                <a
+                  href="/YESURUN_A_Resume.pdf"
+                  download="YESURUN_A_Resume.pdf"
+                  onClick={() => audio.playClick()}
+                  className="px-4 py-2 text-xs font-mono border border-[#D4A853] bg-[#D4A853] text-[#080A0D] hover:bg-[#FFF1C5] transition-colors rounded-none flex items-center gap-2 cursor-pointer font-semibold"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download PDF</span>
+                </a>
+
                 <button
                   type="button"
                   onClick={handlePrintCv}
-                  className="px-4 py-2 text-xs font-mono border border-[#D4A853] text-[#D4A853] hover:bg-[#D4A853] hover:text-[#080A0D] transition-colors rounded-none flex items-center gap-2 cursor-pointer"
+                  className="px-4 py-2 text-xs font-mono border border-[var(--border)] text-[var(--text)] hover:border-[#D4A853] hover:text-[#D4A853] transition-colors rounded-none flex items-center gap-2 cursor-pointer"
                 >
-                  <Download className="w-3.5 h-3.5" />
-                  <span>Print / PDF</span>
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Print View</span>
                 </button>
 
                 <button
@@ -518,13 +566,26 @@ export default function Resume() {
                   onClick={() => {
                     audio.playClick();
                     setShowCvModal(false);
+                    setDownloadNotice(null);
                   }}
                   className="p-2 text-[var(--text-3)] hover:text-[#D4A853] cursor-pointer"
+                  aria-label="Close CV Modal"
                 >
                   <X className="w-6 h-6" />
                 </button>
               </div>
             </div>
+
+            {/* Notice banner if file needs to be placed */}
+            {downloadNotice && (
+              <div className="mb-6 p-4 border border-[#D4A853]/40 bg-[#D4A853]/10 text-xs font-mono text-[#EAE6DE] flex items-start gap-3">
+                <Sparkles className="w-4 h-4 text-[#D4A853] flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="font-semibold text-[#D4A853] mb-1">Resume File Ready for Placement</p>
+                  <p className="text-[var(--text-2)] leading-relaxed">{downloadNotice}</p>
+                </div>
+              </div>
+            )}
 
             {/* Structured Resume Content */}
             <div className="space-y-8 text-sm font-mono text-[var(--text-2)]">

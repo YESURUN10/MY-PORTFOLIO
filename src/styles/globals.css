@@ -18,6 +18,34 @@
   --ff-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 168, 83, 0.15);
+  accent-color: #D4A853;
+}
+
+/* ── Pure Luxury Gold Text Highlight & Selection ── */
+::selection {
+  background: #D4A853 !important;
+  color: #080A0D !important;
+  text-shadow: none !important;
+}
+
+::-moz-selection {
+  background: #D4A853 !important;
+  color: #080A0D !important;
+  text-shadow: none !important;
+}
+
+a {
+  color: inherit;
+}
+
+mark, .highlight, .accent-highlight {
+  background: rgba(212, 168, 83, 0.18);
+  color: #D4A853;
+}
+
+:focus-visible {
+  outline: 2px solid #D4A853;
+  outline-offset: 2px;
 }
 
 .light {

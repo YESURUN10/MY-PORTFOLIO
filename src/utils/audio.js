@@ -1,10 +1,25 @@
 // src/utils/audio.js
 // Subtle Web Audio API micro-feedback for luxury gold UI interactions
 
+const STORAGE_KEY = "portfolio_audio_enabled";
+
 class AudioManager {
   constructor() {
     this.ctx = null;
-    this.enabled = false;
+    this.enabled = this.getInitialState();
+  }
+
+  getInitialState() {
+    if (typeof window === "undefined") return true;
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored === "false") return false;
+      if (stored === "true") return true;
+      // No saved preference -> Default to ON
+      return true;
+    } catch {
+      return true;
+    }
   }
 
   init() {
@@ -15,12 +30,19 @@ class AudioManager {
       }
     }
     if (this.ctx && this.ctx.state === "suspended") {
-      this.ctx.resume();
+      this.ctx.resume().catch(() => {});
     }
   }
 
   toggle() {
     this.enabled = !this.enabled;
+    try {
+      if (typeof window !== "undefined") {
+        localStorage.setItem(STORAGE_KEY, String(this.enabled));
+      }
+    } catch {
+      // LocalStorage access may be restricted in sandboxed environments
+    }
     if (this.enabled) {
       this.init();
       this.playChime();
@@ -29,7 +51,9 @@ class AudioManager {
   }
 
   playHover() {
-    if (!this.enabled || !this.ctx) return;
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
     try {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
@@ -51,7 +75,9 @@ class AudioManager {
   }
 
   playClick() {
-    if (!this.enabled || !this.ctx) return;
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
     try {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
@@ -73,7 +99,9 @@ class AudioManager {
   }
 
   playChime() {
-    if (!this.enabled || !this.ctx) return;
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
     try {
       const notes = [587.33, 739.99, 880]; // D5, F#5, A5 (warm luxury chord)
       notes.forEach((freq, idx) => {

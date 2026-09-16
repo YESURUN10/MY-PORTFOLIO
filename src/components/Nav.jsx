@@ -17,7 +17,11 @@ const NAV_ITEMS = [
 export default function Nav({ active, light, setLight }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [audioEnabled, setAudioEnabled] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(() => (typeof window !== "undefined" ? audio.enabled : true));
+
+  useEffect(() => {
+    setAudioEnabled(audio.enabled);
+  }, []);
   const [mounted, setMounted] = useState(false);
   const scrollProgress = useScrollProgress();
 

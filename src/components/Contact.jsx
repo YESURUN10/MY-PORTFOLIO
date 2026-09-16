@@ -16,7 +16,6 @@ import {
   Loader2,
   Sparkles,
   Terminal,
-  ShieldCheck,
 } from "lucide-react";
 import { ME } from "../data/portfolioData";
 import { useInView, useScrollDirection } from "../utils/hooks";
@@ -410,12 +409,7 @@ export default function Contact() {
                 )}
 
                 {/* Submit Action */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-                  <div className="text-xs font-mono text-[var(--text-3)] flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#D4A853]" />
-                    <span>Direct Web3Forms delivery to {ME.email}</span>
-                  </div>
-
+                <div className="flex flex-col sm:flex-row sm:items-center justify-end gap-4 pt-2">
                   <button
                     type="submit"
                     disabled={status === "busy"}
