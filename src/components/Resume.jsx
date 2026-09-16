@@ -4,7 +4,7 @@
 // Source of truth: Official Resume (2026)
 
 import { useState } from "react";
-import { EXPERIENCE, ME, ACHIEVEMENTS, CERTIFICATIONS } from "../data/portfolioData";
+import { EXPERIENCE, ME, ACHIEVEMENTS, CERTIFICATIONS, PROJECTS } from "../data/portfolioData";
 import { useInView, useScrollDirection, useTilt } from "../utils/hooks";
 import {
   Briefcase,
@@ -320,35 +320,9 @@ export default function Resume() {
   const [achRef, achInView] = useInView(0.08);
   const [certRef, certInView] = useInView(0.08);
   const [showCvModal, setShowCvModal] = useState(false);
-  const [downloadNotice, setDownloadNotice] = useState(null);
   const scrollDir = useScrollDirection();
 
   const RESUME_PATH = "/YESURUN_A_Resume.pdf";
-
-  const handleDownloadResume = async () => {
-    audio.playClick();
-    try {
-      const response = await fetch(RESUME_PATH, { method: "HEAD" });
-      if (response.ok && (response.headers.get("content-type")?.includes("pdf") || response.status === 200)) {
-        const link = document.createElement("a");
-        link.href = RESUME_PATH;
-        link.download = "YESURUN_A_Resume.pdf";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else {
-        setDownloadNotice(
-          "The official PDF file (YESURUN_A_Resume.pdf) has not yet been added to the /public directory. You can inspect the complete verified credentials below or use the Print / Save option."
-        );
-        setShowCvModal(true);
-      }
-    } catch {
-      setDownloadNotice(
-        "The official PDF file (YESURUN_A_Resume.pdf) has not yet been added to the /public directory. You can inspect the complete verified credentials below or use the Print / Save option."
-      );
-      setShowCvModal(true);
-    }
-  };
 
   const handlePrintCv = () => {
     audio.playClick();
@@ -391,20 +365,22 @@ export default function Resume() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4">
-            <button
-              type="button"
-              onClick={handleDownloadResume}
+            <a
+              href="/YESURUN_A_Resume.pdf"
+              download="YESURUN_A_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => audio.playClick()}
               className="inline-flex items-center gap-3 px-7 py-4 border border-[#D4A853] bg-[#D4A853] text-[#080A0D] text-xs sm:text-sm font-mono font-bold tracking-widest uppercase hover:bg-[#FFF1C5] hover:shadow-[0_0_25px_rgba(212,168,83,0.5)] transition-all cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Download Resume (PDF)</span>
-            </button>
+            </a>
 
             <button
               type="button"
               onClick={() => {
                 audio.playClick();
-                setDownloadNotice(null);
                 setShowCvModal(true);
               }}
               className="inline-flex items-center gap-3 px-6 py-4 border border-[var(--border)] text-[var(--text)] text-xs sm:text-sm font-mono tracking-widest uppercase hover:border-[#D4A853] hover:text-[#D4A853] transition-all cursor-pointer"
@@ -545,6 +521,8 @@ export default function Resume() {
                 <a
                   href="/YESURUN_A_Resume.pdf"
                   download="YESURUN_A_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => audio.playClick()}
                   className="px-4 py-2 text-xs font-mono border border-[#D4A853] bg-[#D4A853] text-[#080A0D] hover:bg-[#FFF1C5] transition-colors rounded-none flex items-center gap-2 cursor-pointer font-semibold"
                 >
@@ -566,7 +544,6 @@ export default function Resume() {
                   onClick={() => {
                     audio.playClick();
                     setShowCvModal(false);
-                    setDownloadNotice(null);
                   }}
                   className="p-2 text-[var(--text-3)] hover:text-[#D4A853] cursor-pointer"
                   aria-label="Close CV Modal"
@@ -576,18 +553,7 @@ export default function Resume() {
               </div>
             </div>
 
-            {/* Notice banner if file needs to be placed */}
-            {downloadNotice && (
-              <div className="mb-6 p-4 border border-[#D4A853]/40 bg-[#D4A853]/10 text-xs font-mono text-[#EAE6DE] flex items-start gap-3">
-                <Sparkles className="w-4 h-4 text-[#D4A853] flex-shrink-0 mt-0.5" />
-                <div className="flex-1">
-                  <p className="font-semibold text-[#D4A853] mb-1">Resume File Ready for Placement</p>
-                  <p className="text-[var(--text-2)] leading-relaxed">{downloadNotice}</p>
-                </div>
-              </div>
-            )}
-
-            {/* Structured Resume Content */}
+            {/* Structured Resume Content matching exact Official Resume */}
             <div className="space-y-8 text-sm font-mono text-[var(--text-2)]">
               <div>
                 <h4 className="text-base text-[#D4A853] font-bold uppercase mb-2">
@@ -602,8 +568,41 @@ export default function Resume() {
                 <h4 className="text-base text-[#D4A853] font-bold uppercase mb-2">
                   Education
                 </h4>
-                <p className="text-[#EAE6DE] font-semibold">{ME.education.degree}</p>
-                <p>{ME.education.institution} ({ME.education.period}) — CGPA: {ME.education.cgpa}</p>
+                <div className="space-y-3">
+                  <div>
+                    <div className="flex justify-between items-baseline text-[#EAE6DE] font-semibold">
+                      <span>{ME.education.institution}</span>
+                      <span className="text-xs text-[var(--text-3)]">Chennai, India</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-[#D4A853]">
+                      <span>{ME.education.degree} | CGPA: {ME.education.cgpa}</span>
+                      <span>{ME.education.period}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between items-baseline text-[#EAE6DE] font-semibold">
+                      <span>{ME.school.institution}</span>
+                      <span className="text-xs text-[var(--text-3)]">Tamil Nadu, India</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-[#D4A853]">
+                      <span>{ME.school.degree} | Score: {ME.school.score}</span>
+                      <span>{ME.school.period}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-base text-[#D4A853] font-bold uppercase mb-2">
+                  Technical Skills
+                </h4>
+                <div className="space-y-1 text-xs">
+                  <p><span className="text-[#EAE6DE] font-bold">Programming Languages:</span> Java, JavaScript (ES6+), SQL</p>
+                  <p><span className="text-[#EAE6DE] font-bold">Frontend:</span> React.js, HTML5, CSS3, Tailwind CSS, Vite</p>
+                  <p><span className="text-[#EAE6DE] font-bold">Backend:</span> Node.js, Express.js, REST APIs</p>
+                  <p><span className="text-[#EAE6DE] font-bold">Databases:</span> PostgreSQL, MongoDB, Firebase</p>
+                  <p><span className="text-[#EAE6DE] font-bold">Tools:</span> Git, GitHub, Postman</p>
+                </div>
               </div>
 
               <div>
@@ -612,8 +611,14 @@ export default function Resume() {
                 </h4>
                 {EXPERIENCE.map((exp, idx) => (
                   <div key={idx} className="mb-4">
-                    <p className="text-[#EAE6DE] font-semibold">{exp.role} — {exp.company}</p>
-                    <p className="text-xs text-[var(--text-3)] mb-2">{exp.date} · {exp.location}</p>
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-[#EAE6DE] font-semibold">{exp.company}</span>
+                      <span className="text-xs text-[var(--text-3)]">{exp.location}</span>
+                    </div>
+                    <div className="flex justify-between text-xs text-[#D4A853] mb-2">
+                      <span className="italic">{exp.role}</span>
+                      <span>{exp.date}</span>
+                    </div>
                     <ul className="list-disc list-inside space-y-1 text-xs">
                       {exp.bullets.map((b, bIdx) => (
                         <li key={bIdx}>{b}</li>
@@ -621,6 +626,34 @@ export default function Resume() {
                     </ul>
                   </div>
                 ))}
+              </div>
+
+              <div>
+                <h4 className="text-base text-[#D4A853] font-bold uppercase mb-3">
+                  Featured Projects
+                </h4>
+                {PROJECTS.map((proj, idx) => (
+                  <div key={idx} className="mb-4">
+                    <p className="text-[#EAE6DE] font-semibold">
+                      {proj.title} <span className="text-[#D4A853] text-xs font-normal">| {proj.tech.join(", ")}</span>
+                    </p>
+                    <p className="text-xs mt-1 leading-relaxed text-[var(--text-3)]">{proj.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div>
+                <h4 className="text-base text-[#D4A853] font-bold uppercase mb-3">
+                  Achievements & Certifications
+                </h4>
+                <div className="space-y-2 text-xs">
+                  {ACHIEVEMENTS.map((ach, idx) => (
+                    <p key={idx}><span className="text-[#EAE6DE] font-bold">{ach.title}:</span> {ach.details}</p>
+                  ))}
+                  {CERTIFICATIONS.map((cert, idx) => (
+                    <p key={idx}><span className="text-[#EAE6DE] font-bold">{cert.title}:</span> {cert.issuer}</p>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

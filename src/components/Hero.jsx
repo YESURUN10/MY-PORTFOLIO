@@ -6,7 +6,7 @@ import { ME } from "../data/portfolioData";
 import { useTextScramble, useMagnetic } from "../utils/hooks";
 import HeroPhotoShowcase from "./HeroPhotoShowcase";
 import { audio } from "../utils/audio";
-import { ArrowDown, GitBranch, Globe, Mail, Sparkles } from "lucide-react";
+import { ArrowDown, Download, GitBranch, Globe, Mail, Sparkles } from "lucide-react";
 
 const MagBtn = ({ href, children, ghost, onClick }) => {
   const [ref, off] = useMagnetic(0.3, 85);
@@ -143,6 +143,18 @@ export default function Hero({ scrollY = 0, light = false }) {
               style={showStyle(4, 0.1)}
             >
               <MagBtn href="#projects">Explore Work</MagBtn>
+              <a
+                href="/YESURUN_A_Resume.pdf"
+                download="YESURUN_A_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => audio.playClick()}
+                className="inline-flex items-center gap-2.5 px-6 py-3.5 border border-[#D4A853] bg-[#D4A853] text-[#080A0D] text-xs font-mono font-bold tracking-widest uppercase hover:bg-[#FFF1C5] hover:shadow-[0_0_20px_rgba(212,168,83,0.4)] transition-all cursor-pointer"
+                data-h
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Resume (PDF)</span>
+              </a>
               <MagBtn href="#contact" ghost>
                 Initiate Dialogue
               </MagBtn>

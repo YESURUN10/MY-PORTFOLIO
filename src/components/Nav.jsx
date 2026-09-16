@@ -2,7 +2,7 @@
 // Responsive luxury navigation with active section indicator, audio toggle & mobile drawer
 
 import { useState, useEffect } from "react";
-import { Volume2, VolumeX, Menu, X, Sun, Moon } from "lucide-react";
+import { Volume2, VolumeX, Menu, X, Sun, Moon, Download } from "lucide-react";
 import { audio } from "../utils/audio";
 import { useScrollProgress } from "../utils/hooks";
 
@@ -130,6 +130,21 @@ export default function Nav({ active, light, setLight }) {
             )}
           </button>
 
+          {/* Resume PDF Direct Download Button */}
+          <a
+            href="/YESURUN_A_Resume.pdf"
+            download="YESURUN_A_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => audio.playClick()}
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#D4A853] bg-[#D4A853]/10 text-[#D4A853] hover:bg-[#D4A853] hover:text-[#080A0D] text-[0.65rem] font-mono uppercase tracking-wider font-semibold transition-colors cursor-pointer"
+            data-h
+            title="Download YESURUN A Resume (PDF)"
+          >
+            <Download className="w-3 h-3" />
+            <span>Resume</span>
+          </a>
+
           {/* Dark / Light Toggle */}
           <button
             type="button"
@@ -198,6 +213,22 @@ export default function Nav({ active, light, setLight }) {
                 {item.label}
               </button>
             ))}
+
+            {/* Direct Resume Download in Mobile Drawer */}
+            <a
+              href="/YESURUN_A_Resume.pdf"
+              download="YESURUN_A_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                audio.playClick();
+                setMobileMenuOpen(false);
+              }}
+              className="mt-2 inline-flex items-center justify-center gap-2.5 py-3 px-6 border border-[#D4A853] bg-[#D4A853] text-[#080A0D] text-xs font-mono uppercase font-bold tracking-widest hover:bg-[#FFF1C5] transition-colors cursor-pointer"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download Resume (PDF)</span>
+            </a>
 
             <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
               <button

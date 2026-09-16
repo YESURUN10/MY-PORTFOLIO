@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 3000",
-    "build": "vite build",
+    "build": "node scripts/generate-resume.cjs && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -17,6 +17,7 @@
     "@react-three/fiber": "^9.5.0",
     "lucide-react": "^1.46.0",
     "motion": "^12.34.3",
+    "pdfkit": "^0.20.2",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "three": "^0.183.1"
