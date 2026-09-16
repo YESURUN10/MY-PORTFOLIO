@@ -1,0 +1,245 @@
+@import "./styles/globals.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Additional luxury black and gold styles */
+.dp {
+  font-family: var(--ff-display), Georgia, serif;
+}
+
+.mo {
+  font-family: var(--ff-mono), monospace;
+}
+
+.c-dot {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  transform: translate(-50%, -50%);
+}
+
+.c-ring {
+  position: fixed;
+  z-index: 9998;
+  pointer-events: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 168, 83, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.25s, height 0.25s, border-color 0.25s;
+}
+
+.c-ring.on {
+  width: 58px;
+  height: 58px;
+  border-color: var(--gold);
+}
+
+.c-glow {
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  opacity: 0.8;
+}
+
+.light .c-glow {
+  mix-blend-mode: multiply;
+  background: radial-gradient(circle, rgba(120, 82, 14, 0.1) 0%, transparent 70%);
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 14px 42px;
+  font-size: 0.73rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: var(--ff-mono);
+  cursor: none;
+  transition: color 0.35s;
+  display: inline-block;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.btn:hover {
+  color: #080A0D;
+}
+
+.btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.btn span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn.ghost {
+  border-color: var(--border);
+  color: var(--text-2);
+}
+
+.btn.ghost::before {
+  background: var(--surface);
+}
+
+.btn.ghost:hover {
+  color: var(--text);
+}
+
+.wm {
+  position: absolute;
+  right: 5vw;
+  top: 60px;
+  font-family: var(--ff-display), serif;
+  font-size: clamp(7rem, 16vw, 16rem);
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--border);
+  user-select: none;
+  pointer-events: none;
+  line-height: 1;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.pc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s, box-shadow 0.45s, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pc:hover {
+  border-color: var(--border-h);
+  box-shadow: var(--shadow);
+}
+
+.pc-tag {
+  font-size: 0.65rem;
+  padding: 4px 10px;
+  border: 1px solid var(--border-h);
+  color: var(--gold);
+  font-family: var(--ff-mono);
+  letter-spacing: 0.08em;
+  background: var(--gold-dim);
+}
+
+.fi {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 0;
+  font-family: var(--ff-body);
+  font-size: 0.94rem;
+  font-weight: 300;
+  outline: none;
+  transition: border-bottom-color 0.3s;
+}
+
+.fi:focus {
+  border-bottom-color: var(--gold);
+}
+
+.shim {
+  background: linear-gradient(
+    90deg,
+    var(--gold) 0%,
+    var(--gold-l) 35%,
+    #fff5d0 50%,
+    var(--gold-l) 65%,
+    var(--gold) 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shim 5s linear infinite;
+}
+
+@keyframes shim {
+  from {
+    background-position: -300% center;
+  }
+  to {
+    background-position: 300% center;
+  }
+}
+
+@keyframes blob {
+  0%, 100% {
+    border-radius: 60% 40% 70% 30% / 50% 60% 40% 70%;
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    border-radius: 40% 60% 30% 70% / 60% 40% 70% 30%;
+    transform: translate(12px, -18px) scale(1.04);
+  }
+  66% {
+    border-radius: 70% 30% 60% 40% / 40% 70% 30% 60%;
+    transform: translate(-10px, 14px) scale(0.97);
+  }
+}
+
+.tl {
+  position: relative;
+  padding-left: 32px;
+  padding-bottom: 48px;
+}
+
+.tl::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+
+.tl::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 22px;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.tl:last-child::after {
+  display: none;
+}
+
+.tl:last-child {
+  padding-bottom: 0;
+}

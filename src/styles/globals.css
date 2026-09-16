@@ -1,0 +1,148 @@
+/* src/styles/globals.css */
+:root {
+  --bg: #080A0D;
+  --surface: #0C0F15;
+  --surface-2: #121620;
+  --border: rgba(212, 168, 83, 0.15);
+  --border-h: rgba(212, 168, 83, 0.45);
+  --gold: #D4A853;
+  --gold-l: #F5D996;
+  --gold-dim: rgba(212, 168, 83, 0.08);
+  --gold-glow: rgba(212, 168, 83, 0.35);
+  --text: #F4F1EA;
+  --text-2: #A3A8B5;
+  --text-3: #636875;
+  --ff-display: "Playfair Display", "Cinzel", Georgia, serif;
+  --ff-d: "Playfair Display", "Cinzel", Georgia, serif;
+  --ff-mono: "JetBrains Mono", "Fira Code", monospace;
+  --ff-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 168, 83, 0.15);
+}
+
+.light {
+  --bg: #F8F6F0;
+  --surface: #FFFFFF;
+  --surface-2: #EFECE6;
+  --border: rgba(180, 130, 40, 0.2);
+  --border-h: rgba(180, 130, 40, 0.55);
+  --gold: #A27B2C;
+  --gold-l: #84601A;
+  --gold-dim: rgba(162, 123, 44, 0.1);
+  --gold-glow: rgba(162, 123, 44, 0.25);
+  --text: #181A1F;
+  --text-2: #525660;
+  --text-3: #8C909A;
+  --shadow: 0 15px 30px rgba(0, 0, 0, 0.08), 0 0 15px rgba(162, 123, 44, 0.12);
+}
+
+@keyframes scanBeam {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinSlowReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Scroll reveal utility classes */
+.reveal-init {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-init.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-card {
+  opacity: 0;
+  transform: translateY(32px) scale(0.97);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s ease,
+              border-color 0.4s ease;
+  will-change: opacity, transform;
+}
+
+.reveal-card.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Timeline Progressive Line Reveal */
+.timeline-stem {
+  transform-origin: top;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-init,
+  .reveal-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .animate-marquee {
+    animation: none !important;
+  }
+}
+
